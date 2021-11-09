@@ -22,10 +22,7 @@ class MonitoringService
     public function getNotifiableUsers(): Collection
     {
         $collection = new Collection();
-        $emails = [
-            'ricardo.donoso91@gmail.com',
-            'guillermodanilo08@gmail.com'
-        ];
+        $emails = explode(',', env('REPORT_EMAILS'));
 
         foreach ($emails as $email) {
             $user = new User;
