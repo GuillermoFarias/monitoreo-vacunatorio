@@ -10,6 +10,8 @@ class Entry extends Model
 {
     use Notifiable;
 
+    public $timestamps = false;
+
     /**
      * table
      *
@@ -35,15 +37,6 @@ class Entry extends Model
         'fecha_hora'
     ];
 
-    /**
-     * sendEntryNotification
-     *
-     * @return void
-     */
-    public function sendEntryNotification(): void
-    {
-        $this->notify(new EntryNotification());
-    }
 
     /**
      * get email attribute for testing

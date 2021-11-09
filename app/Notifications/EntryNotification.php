@@ -2,13 +2,30 @@
 
 namespace App\Notifications;
 
-use App\Models\Entry;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 
 class EntryNotification extends Notification
 {
+    /**
+     * reportFile
+     *
+     * @var mixed
+     */
+    private $reportFile;
+
+    /**
+     * __construct
+     *
+     * @param  mixed $reportFile
+     * @return void
+     */
+    public function __construct($reportFile)
+    {
+        $this->reportFile = $reportFile;
+    }
+
     /**
      * Get the notification's channels.
      *
@@ -26,23 +43,18 @@ class EntryNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail(Entry $entry)
+    public function toMail()
     {
         return (new MailMessage)
             ->level('info')
             ->subject('Registro de datos')
             ->greeting("Hola ! 👋🏻")
-            ->line(new HtmlString('El registro fue registrado desde <strong>DISPOSITIVO</strong>'))
-            ->line(new HtmlString('</br>'))
-            ->line('Datos del registro :')
-            ->line(new HtmlString('<b>Temperatura </b>:' . $entry->employee->rut))
-            ->line(new HtmlString('<b>Fecha</b>:' . $date))
-            ->line(new HtmlString('<b>Hora</b>:' . $hour))
-            ->line(new HtmlString('<b>Tipo</b>:' . $type))
-            ->line(new HtmlString('<b>Fuente</b>:' . $source))
+            ->line(new HtmlString('Te enviamos el reporte semanal'))
             ->line(new HtmlString('</br>'))
             ->line(new HtmlString('</br>'))
-            ->line(new HtmlString('<center>Id de validación</center>'))
-            ->line(new HtmlString('<center><strong></strong></center>'));
+            ->line(new HtmlString('</br>'))
+            ->attachData($this->reportFile, 'report_' . now()->format('Y_m_d_his') . '.pdf', [
+                'mime' => 'text/pdf',
+            ]);
     }
 }
