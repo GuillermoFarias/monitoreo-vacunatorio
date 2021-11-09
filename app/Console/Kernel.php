@@ -24,7 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $dayOfWeek = env('REPORT_DAY_OF_WEEK', 1);
+        $hour = env('REPORT_HOUR', '09:00');
+        $schedule->command('send:report')->weeklyOn($dayOfWeek, $hour);
     }
 
     /**
@@ -34,7 +36,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

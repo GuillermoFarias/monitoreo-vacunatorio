@@ -10,6 +10,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
 class MonitoringService
@@ -23,6 +24,8 @@ class MonitoringService
     {
         $collection = new Collection();
         $emails = explode(',', env('REPORT_EMAILS'));
+
+        Log::info('MonitoringService: getNotifiableUsers: emails: ' . json_encode($emails));
 
         foreach ($emails as $email) {
             $user = new User;
