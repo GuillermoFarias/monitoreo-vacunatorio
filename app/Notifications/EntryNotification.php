@@ -47,8 +47,8 @@ class EntryNotification extends Notification
     {
         return (new MailMessage)
             ->level('info')
-            ->from('alertasvacunatorioc5@gmail.com', "Monitoreo Vacunatorio")
-            ->subject('Registro de datos')
+            ->from('alertasvacunatorioc5@gmail.com', "Reportes Vacunatorio C5")
+            ->subject('Reportes de alertas de vacunatorio')
             ->greeting("Buen Día")
             ->line(new HtmlString('Te enviamos el reporte semanal'))
             ->line(new HtmlString('</br>'))
