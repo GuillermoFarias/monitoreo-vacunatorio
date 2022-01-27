@@ -60,7 +60,7 @@ class EntryNotification extends Notification
             ->greeting("Buen Día");
 
         if ($this->entriesCount > 0) {
-            $mail->line(new HtmlString('Te enviamos el reporte semanal'))
+            $mail->line(new HtmlString('Se adjunta el reporte semanal'))
                 ->attachData($this->reportFile, 'report_' . now()->format('Y_m_d_his') . '.pdf', [
                     'mime' => 'text/pdf',
                 ]);
