@@ -16,14 +16,22 @@ class EntryNotification extends Notification
     private $reportFile;
 
     /**
+     * entriesCount
+     *
+     * @var mixed
+     */
+    private $entriesCount;
+
+    /**
      * __construct
      *
      * @param  mixed $reportFile
      * @return void
      */
-    public function __construct($reportFile)
+    public function __construct($reportFile, $entriesCount)
     {
         $this->reportFile = $reportFile;
+        $this->entriesCount = $entriesCount;
     }
 
     /**
@@ -45,17 +53,24 @@ class EntryNotification extends Notification
      */
     public function toMail()
     {
-        return (new MailMessage)
+        $mail = (new MailMessage)
             ->level('info')
             ->from('alertasvacunatorioc5@gmail.com', "Reportes Vacunatorio C5")
             ->subject('Reportes de alertas de vacunatorio')
-            ->greeting("Buen Día")
-            ->line(new HtmlString('Te enviamos el reporte semanal'))
+            ->greeting("Buen Día");
+
+        if ($this->entriesCount > 0) {
+            $mail->line(new HtmlString('Te enviamos el reporte semanal'))
+                ->attachData($this->reportFile, 'report_' . now()->format('Y_m_d_his') . '.pdf', [
+                    'mime' => 'text/pdf',
+                ]);
+        } else {
+            $mail->line(new HtmlString('No hay alertas para este reporte'));
+        }
+
+        $mail->line(new HtmlString('</br>'))
             ->line(new HtmlString('</br>'))
-            ->line(new HtmlString('</br>'))
-            ->line(new HtmlString('</br>'))
-            ->attachData($this->reportFile, 'report_' . now()->format('Y_m_d_his') . '.pdf', [
-                'mime' => 'text/pdf',
-            ]);
+            ->line(new HtmlString('</br>'));
+        return $mail;
     }
 }

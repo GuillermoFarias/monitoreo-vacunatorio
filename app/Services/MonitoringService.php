@@ -46,7 +46,7 @@ class MonitoringService
         $entries = $this->getEntriesToNotified();
         Notification::send(
             $this->getNotifiableUsers(),
-            new EntryNotification($this->getReportPdf($entries))
+            new EntryNotification($this->getReportPdf($entries), $entries->count())
         );
 
         $this->updateEntriesNotifiedAt($entries);
